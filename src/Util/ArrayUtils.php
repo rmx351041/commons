@@ -14,7 +14,7 @@ abstract class ArrayUtils
         $oldItemIds = array_map($getId, $oldItems);
         $newItemIds = array_map($getId, $newItems);
 
-        $result = ['removing' => [], 'inserting' => [], 'updating' => []];
+        $result = ['removing' => [], 'inserting' => [], 'updating' => [], 'current' => []];
 
         $removingIds = array_diff($oldItemIds, $newItemIds);
         array_walk($oldItems, static function ($item) use (&$result, $getId, $removingIds) {
@@ -27,6 +27,7 @@ abstract class ArrayUtils
         array_walk($newItems, static function ($item) use (&$result, $getId, $insertingIds) {
             if (in_array($getId($item), $insertingIds, true)) {
                 $result['inserting'][] = $item;
+                $result['current'][] = $item;
             }
         });
 
@@ -37,6 +38,7 @@ abstract class ArrayUtils
                 $newItemId = $getId($newItem);
                 if (($oldItemId === $newItemId) && in_array($oldItemId, $updatingIds, true) && in_array($newItemId, $updatingIds, true)) {
                     $result['updating'][] = ['old' => $oldItem, 'new' => $newItem];
+                    $result['current'][] = $newItem;
                 }
             }
         }
