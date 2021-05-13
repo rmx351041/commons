@@ -1,5 +1,5 @@
 <?php
-namespace Rmx351\Commons\Money;
+namespace rmx351\commons\Money;
 
 abstract class Currency
 {

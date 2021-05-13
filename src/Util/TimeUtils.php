@@ -1,5 +1,5 @@
 <?php
-namespace Rmx351\Commons\Util;
+namespace rmx351\commons\Util;
 
 abstract class TimeUtils
 {

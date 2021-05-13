@@ -1,8 +1,8 @@
 <?php
-namespace Rmx351\Commons\Util;
+namespace rmx351\commons\Util;
 
 use NumberFormatter;
-use Rmx351\Commons\Money\Currency;
+use rmx351\commons\Money\Currency;
 
 abstract class NumberUtils
 {
