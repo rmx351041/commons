@@ -6,14 +6,14 @@ use rmx351\commons\Money\Currency;
 
 abstract class NumberUtils
 {
-    const DEFAULT_CURRENCY_OPTIONS = [
+    public static $DEFAULT_CURRENCY_OPTIONS = [
         'currency' => Currency::CURRENCY_CNY,
         'locale' => 'zh_CN',
         'precision' => 2,
         'trim_zero' => false,
     ];
 
-    const DEFAULT_PERCENT_OPTIONS = [
+    public static $DEFAULT_PERCENT_OPTIONS = [
         'locale' => 'zh_CN',
         'precision' => 1,
         'trim_zero' => false,
@@ -52,7 +52,7 @@ abstract class NumberUtils
 
     public static function formatCurrency($amount, array $options = [])
     {
-        $options = array_merge(static::DEFAULT_CURRENCY_OPTIONS, $options);
+        $options = array_merge(static::$DEFAULT_CURRENCY_OPTIONS, $options);
 
         if ($options['currency'] === Currency::CURRENCY_PNT) {
             return sprintf('%d Points', $amount);
@@ -72,7 +72,7 @@ abstract class NumberUtils
 
     public static function formatPercent($value, array $options = [])
     {
-        $options = array_merge(static::DEFAULT_PERCENT_OPTIONS, $options);
+        $options = array_merge(static::$DEFAULT_PERCENT_OPTIONS, $options);
 
         $formatter = new NumberFormatter($options['locale'], NumberFormatter::PERCENT);
         $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $options['precision']);
@@ -86,6 +86,12 @@ abstract class NumberUtils
         return $result;
     }
 
+    /**
+     * 讲金额转化成分
+     * @param float $amount
+     *
+     * @return string
+     */
     public static function toCent($amount)
     {
         $amount = trim($amount);
@@ -109,6 +115,13 @@ abstract class NumberUtils
         return rtrim(preg_replace('/(\.\d*?)(0+)$/u', '$1', $string), '.');
     }
 
+    /**
+     * 金额转化成大写
+     * @param float $number
+     * @param array $options
+     *
+     * @return string
+     */
     public static function toChinese($number, $options = [])
     {
         if (!static::verifyNumber($number)) {
@@ -223,5 +236,20 @@ abstract class NumberUtils
         $ltrimResult = Utils::mbLtrim($result, static::$numberMap[0]);
 
         return '' === $ltrimResult || $ltrimResult === $result ? $ltrimResult : (static::$numberMap[0] . $ltrimResult);
+    }
+
+    /**
+     * 过滤金额
+     * @param string $amount
+     *
+     * @return string|null
+     */
+    public static function filterAmount($amount)
+    {
+        $pattern = '/(\d+[\.\d+]?)/is';
+        if (!preg_match_all($pattern, $amount, $matches)) {
+            return null;
+        }
+        return implode('', $matches[0]);
     }
 }

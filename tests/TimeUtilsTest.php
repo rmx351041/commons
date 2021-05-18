@@ -7,4 +7,10 @@ class TimeUtilsTest extends PHPUnit_Framework_TestCase
         $result = \rmx351\commons\Util\TimeUtils::formatDuration('2020-1-1', '2020-2-1');
         print_r($result);
     }
+
+    public function testGetBetweenTimeArr()
+    {
+        $result = \rmx351\commons\Util\TimeUtils::getBetweenTimeArr('2020-1-1', '2020-2-1');
+        print_r($result);
+    }
 }
