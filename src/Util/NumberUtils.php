@@ -60,6 +60,8 @@ abstract class NumberUtils
 
         $formatter = new NumberFormatter($options['locale'], NumberFormatter::CURRENCY);
         $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $options['precision']);
+        $myPattern = "¤#,##0.00;-¤#,##0.00";
+        $formatter->setPattern($myPattern);
 
         $result = $formatter->formatCurrency($amount, $options['currency']);
 
